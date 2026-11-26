@@ -53,12 +53,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          set -eu
-          gh api "/orgs/42bash/packages?package_type=container" --jq '.[] | {name,visibility,repository:.repository.full_name}'
-          for i in 1 2 3 4 5 6; do
-            if gh api --method PATCH "/orgs/42bash/packages/container/invoice-bridge" -f visibility=public; then
-              exit 0
-            fi
-            sleep 5
-          done
-          exit 1
+          set +e
+          echo "=== packages ==="
+          gh api /orgs/42bash/packages
+          echo "=== graphql ==="
+          gh api graphql -f query='query { organization(login: "42bash") { packages(first: 20) { nodes { id name packageType } } } }'
+          echo "=== patch ==="
+          gh api --method PATCH /orgs/42bash/packages/container/invoice-bridge -f visibility=public
+          code=$?
+          exit "$code"
