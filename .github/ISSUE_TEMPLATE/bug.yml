@@ -1,0 +1,16 @@
+name: Bug
+description: A defect. Do not paste tokens, invoices, or tax identifiers.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include API tokens, real invoices, SIREN numbers, or unsanitised logs.
+  - type: textarea
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Invoice Bridge version
+      placeholder: 0.1.0-beta.1

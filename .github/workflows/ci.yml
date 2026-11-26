@@ -1,0 +1,140 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+        with:
+          php-version: "8.4"
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+      - name: Pint
+        run: vendor/bin/pint --test
+      - name: PHPStan
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+      - name: Composer audit
+        run: composer audit --no-interaction
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      # The GitHub Action requires a paid license on organization repositories.
+      # The scanner itself is free: pin the official binary and its checksum.
+      - name: Gitleaks
+        run: |
+          set -eu
+          version=8.30.1
+          file="gitleaks_${version}_linux_x64.tar.gz"
+          curl -fsSL -o "$file" "https://github.com/gitleaks/gitleaks/releases/download/v${version}/${file}"
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  ${file}" | sha256sum -c
+          tar -xzf "$file" gitleaks
+          ./gitleaks detect --source . --redact --no-banner --exit-code 1
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Build
+        run: |
+          docker build -f docker/Dockerfile \
+            --build-arg IMAGE_REVISION="${{ github.sha }}" \
+            --build-arg IMAGE_VERSION=0.1.0-beta.1 \
+            -t invoice-bridge:ci -t invoice-bridge:0.1.0-beta.1 .
+      - name: Image vulnerabilities
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: invoice-bridge:ci
+          format: table
+          severity: CRITICAL
+          exit-code: "1"
+          ignore-unfixed: true
+      - name: Virgin install
+        run: |
+          set -eu
+          KEY=$(docker run --rm --entrypoint php invoice-bridge:ci artisan key:generate --show)
+          HASH=$(docker run --rm --entrypoint php invoice-bridge:ci -r 'echo password_hash("ci-demo", PASSWORD_BCRYPT);')
+          umask 077
+          cat > .env <<EOF
+          APP_NAME="Invoice Bridge CI"
+          APP_ENV=local
+          APP_KEY=${KEY}
+          APP_DEBUG=false
+          APP_URL=http://127.0.0.1:8098
+          APP_LOCALE=fr
+          APP_FALLBACK_LOCALE=fr
+          APP_TIMEZONE=Europe/Paris
+          LOG_CHANNEL=stderr
+          LOG_LEVEL=info
+          DB_CONNECTION=sqlite
+          DB_DATABASE=/var/www/html/storage/database/einvoicing.sqlite
+          SESSION_DRIVER=file
+          SESSION_LIFETIME=60
+          SESSION_SECURE_COOKIE=false
+          CACHE_STORE=file
+          QUEUE_CONNECTION=sync
+          FILESYSTEM_DISK=local
+          MAIL_MAILER=log
+          MAIL_FROM_ADDRESS=einvoicing@example.com
+          MAIL_FROM_NAME="Invoice Bridge"
+          EINVOICING_ENABLED=false
+          EINVOICING_SEND_ENABLED=false
+          EINVOICING_AUTO_SEND=false
+          EINVOICING_AUTO_RECEIVE=false
+          EINVOICING_REPORT_PAYMENTS=false
+          EINVOICING_RUN_MIGRATIONS=true
+          EINVOICING_VAT_FRANCHISE=false
+          INVOICE_NINJA_URL=https://invoice.example
+          INVOICE_NINJA_API_TOKEN=ci-token-not-a-secret
+          SUPERPDP_API_URL=https://api.example
+          SUPERPDP_ENVIRONMENT=sandbox
+          EINVOICING_DASHBOARD_USER=admin
+          EINVOICING_DASHBOARD_PASSWORD_HASH='${HASH}'
+          EINVOICING_WEBHOOK_SECRET=ci-webhook-not-a-secret
+          EINVOICING_SELLER_NAME="Martin Dupont EI – Demo"
+          EINVOICING_SELLER_SIREN=000000000
+          EINVOICING_SELLER_ADDRESS_LINE1="1 rue de la Paix"
+          EINVOICING_SELLER_POST_CODE=75001
+          EINVOICING_SELLER_CITY=Paris
+          EINVOICING_SELLER_COUNTRY=FR
+          EOF
+          # The image runs as uid 1000. The runner user is a different uid, so a
+          # mode-600 file would be unreadable and the application would start without a key.
+          # This file contains only fictitious values.
+          chmod a+r .env
+          # The scheduler is a second process on the same SQLite file. This check
+          # only needs the web process; the boot lock is covered by the entrypoint.
+          docker compose -p invoice-bridge-ci up -d --no-build invoice-bridge
+          code=""
+          for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+            curl -s -o /dev/null http://127.0.0.1:8098/up && break
+            sleep 3
+          done
+          for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8098/ || true)
+            [ "$code" = "401" ] && break
+            sleep 3
+          done
+          echo "dashboard=$code"
+          if [ "$code" != "401" ]; then
+            docker compose -p invoice-bridge-ci exec -T invoice-bridge sh -c 'tail -n 20 storage/logs/laravel.log 2>/dev/null || true'
+            exit 1
+          fi
+          docker compose -p invoice-bridge-ci exec -T invoice-bridge php artisan einvoicing:check > /tmp/check.txt || true
+          grep -q 'enabled=false' /tmp/check.txt
+          grep -q 'send_enabled=false' /tmp/check.txt
+          docker compose -p invoice-bridge-ci down -v

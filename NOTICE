@@ -1,0 +1,21 @@
+42bash Invoice Bridge
+Copyright 2026 42bash
+
+This product is licensed under the Apache License, Version 2.0.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+This product includes software developed by third parties, used unmodified
+and distributed under their own licenses:
+
+- Laravel and its dependencies (MIT, BSD-3-Clause, Apache-2.0).
+  Nette components are used under the BSD-3-Clause option of their
+  dual licence.
+- smalot/pdfparser (LGPL-3.0-only), used as an unmodified Composer library
+  to read PDF text. It is not relicensed under Apache-2.0. See
+  vendor/smalot/pdfparser/LICENSE.txt after installation.
+
+Invoice Ninja and SUPER PDP are independent products. 42bash is not an
+approved e-invoicing platform (plateforme agréée). Regulatory exchanges are
+delegated to the platform configured by the operator, currently SUPER PDP.

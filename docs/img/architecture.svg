@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" role="img" aria-labelledby="title desc">
+  <title id="title">42bash Invoice Bridge architecture</title>
+  <desc id="desc">Invoice Ninja and Invoice Bridge stay on the operator server. SuperPDP, the approved platform, performs the regulatory exchange.</desc>
+  <rect width="1100" height="560" fill="#0a0a0a"/>
+  <rect x="36" y="36" width="640" height="488" rx="12" fill="#141414" stroke="#8f7cb9" stroke-width="1.5"/>
+  <text x="56" y="68" fill="#cfc3f5" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13" letter-spacing="1.5">OPERATOR SERVER</text>
+  <text x="56" y="92" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">Self-hosted. Invoice Ninja is not modified.</text>
+
+  <rect x="56" y="116" width="250" height="250" rx="10" fill="#101010" stroke="#3a53a4" stroke-width="1.5"/>
+  <text x="76" y="150" fill="#ededed" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="18" font-weight="700">Invoice Ninja</text>
+  <text x="76" y="182" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Invoices and credit notes</text>
+  <text x="76" y="206" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Customers and vendors</text>
+  <text x="76" y="230" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Expenses</text>
+  <text x="76" y="254" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Custom fields and notes</text>
+  <text x="76" y="292" fill="#8da3f2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">API v1 · unchanged core</text>
+
+  <rect x="390" y="116" width="250" height="372" rx="10" fill="#101010" stroke="#8f7cb9" stroke-width="1.5"/>
+  <text x="410" y="150" fill="#ededed" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="18" font-weight="700">Invoice Bridge</text>
+  <text x="410" y="182" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">EN 16931 mapping</text>
+  <text x="410" y="206" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">PDF and Factur-X checks</text>
+  <text x="410" y="230" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Emission lock</text>
+  <text x="410" y="254" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Reception and expenses</text>
+  <text x="410" y="278" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Status written back</text>
+  <text x="410" y="316" fill="#cfc3f5" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Local archive</text>
+  <text x="410" y="340" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">Originals stay on this server.</text>
+  <text x="410" y="364" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">Nothing in this archive is in Git.</text>
+  <text x="410" y="410" fill="#8da3f2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">Scheduler · journal · alerts</text>
+
+  <path d="M306 220 H390" stroke="#8f7cb9" stroke-width="1.5" fill="none"/>
+  <path d="M384 214 L390 220 L384 226" stroke="#8f7cb9" stroke-width="1.5" fill="none"/>
+  <path d="M390 250 H306" stroke="#3a53a4" stroke-width="1.5" fill="none"/>
+  <path d="M312 244 L306 250 L312 256" stroke="#3a53a4" stroke-width="1.5" fill="none"/>
+  <text x="312" y="206" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="12">read</text>
+  <text x="312" y="274" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="12">write</text>
+
+  <rect x="724" y="116" width="340" height="300" rx="12" fill="#141414" stroke="#3a53a4" stroke-width="1.5"/>
+  <text x="748" y="154" fill="#ededed" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="18" font-weight="700">SuperPDP</text>
+  <text x="748" y="180" fill="#cfc3f5" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">Approved platform</text>
+  <text x="748" y="216" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Directory</text>
+  <text x="748" y="240" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Factur-X conversion</text>
+  <text x="748" y="264" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Regulatory exchange</text>
+  <text x="748" y="288" fill="#b2b2b2" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="14">Lifecycle statuses</text>
+  <text x="748" y="330" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">42bash is not this platform.</text>
+  <text x="748" y="354" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="13">Its fees are its own contract.</text>
+
+  <path d="M640 230 H724" stroke="#8f7cb9" stroke-width="1.5" fill="none"/>
+  <path d="M716 224 L724 230 L716 236" stroke="#8f7cb9" stroke-width="1.5" fill="none"/>
+  <path d="M724 268 H640" stroke="#3a53a4" stroke-width="1.5" fill="none"/>
+  <path d="M648 262 L640 268 L648 274" stroke="#3a53a4" stroke-width="1.5" fill="none"/>
+  <text x="652" y="216" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="12">file / receive</text>
+  <text x="652" y="294" fill="#8a8a8a" font-family="ui-sans-serif, Segoe UI, sans-serif" font-size="12">status</text>
+</svg>

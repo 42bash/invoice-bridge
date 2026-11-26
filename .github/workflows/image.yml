@@ -1,0 +1,55 @@
+name: Image
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Image tag, without a leading v and never latest
+        required: true
+        default: 0.1.0-beta.1
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Image tag
+        id: tag
+        run: |
+          set -eu
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            name="${{ inputs.tag }}"
+          else
+            name="${GITHUB_REF_NAME#v}"
+          fi
+          case "$name" in
+            latest|main|"") echo "This workflow does not publish a floating tag." >&2; exit 1 ;;
+          esac
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+      - name: Build and push
+        run: |
+          set -eu
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker build -f docker/Dockerfile \
+            --build-arg IMAGE_REVISION="${{ github.sha }}" \
+            --build-arg IMAGE_VERSION="${{ steps.tag.outputs.name }}" \
+            -t "ghcr.io/42bash/invoice-bridge:${{ steps.tag.outputs.name }}" .
+          docker push "ghcr.io/42bash/invoice-bridge:${{ steps.tag.outputs.name }}"
+      - name: Make the package public
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          for i in 1 2 3 4 5 6; do
+            if gh api --method PATCH "/orgs/42bash/packages/container/invoice-bridge" -f visibility=public; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
