@@ -7,13 +7,14 @@ This repository does not deploy itself.
 ## One-time server setup
 
 ```sh
-# The private key stays on the server, mode 600. The public key is a read-only GitHub deploy key.
-git clone git@github-invoice-bridge:42bash/invoice-bridge.git
+git clone https://github.com/42bash/invoice-bridge.git
 cd invoice-bridge
-git checkout <commit>        # a commit whose CI run is green. Do not track main.
+git checkout v0.1.0-beta.2
 cp .env.example .env
 chmod 600 .env
 ```
+
+A read-only deploy key is enough to clone this public repository. The private key stays on the server, mode 600. It is not used to push.
 
 Fill `.env` from [configuration.md](configuration.md). Then:
 

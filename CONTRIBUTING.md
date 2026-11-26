@@ -1,6 +1,6 @@
 # Contributing
 
-Issues and pull requests are welcome on `42bash/invoice-bridge` once the repository is public. Until then, write to contact@42bash.com.
+Issues and pull requests are welcome on `42bash/invoice-bridge`. A private report still goes to contact@42bash.com, as described in [SECURITY.md](SECURITY.md).
 
 - Do not include tokens, real invoices, tax identifiers, or unsanitised logs in an issue, a pull request, or a screenshot.
 - Add or update a PHPUnit test for a behaviour change.

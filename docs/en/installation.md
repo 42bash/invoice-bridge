@@ -1,6 +1,6 @@
 # Installation
 
-1. Clone `42bash/invoice-bridge`.
+1. Clone `https://github.com/42bash/invoice-bridge.git` and check out `v0.1.0-beta.2` (`git checkout v0.1.0-beta.2`). That is the published version. `main` may contain maintenance that is not in a tag yet.
 2. `cp .env.example .env && chmod 600 .env`.
 3. Set at least `APP_KEY`, `INVOICE_NINJA_URL`, `INVOICE_NINJA_API_TOKEN`, `SUPERPDP_CLIENT_ID`, `SUPERPDP_CLIENT_SECRET`, `SUPERPDP_ENVIRONMENT=sandbox`, and `EINVOICING_DASHBOARD_PASSWORD_HASH`.
 4. `./scripts/install.sh` builds the image and starts the app and the scheduler.

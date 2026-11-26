@@ -1,6 +1,6 @@
 # Installation
 
-1. Cloner `42bash/invoice-bridge`.
+1. Cloner `https://github.com/42bash/invoice-bridge.git` et se placer sur le tag `v0.1.0-beta.2` (`git checkout v0.1.0-beta.2`). C'est la version publiée. `main` peut contenir une maintenance qui n'est pas encore dans un tag.
 2. `cp .env.example .env && chmod 600 .env`.
 3. Renseigner au minimum `APP_KEY` (`php artisan key:generate --show` dans le conteneur, ou avant le premier démarrage), `INVOICE_NINJA_URL`, `INVOICE_NINJA_API_TOKEN`, `SUPERPDP_CLIENT_ID`, `SUPERPDP_CLIENT_SECRET`, `SUPERPDP_ENVIRONMENT=sandbox`, `EINVOICING_DASHBOARD_PASSWORD_HASH`.
 4. `./scripts/install.sh` construit l'image et démarre l'application plus le planificateur.

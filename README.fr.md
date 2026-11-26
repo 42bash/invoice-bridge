@@ -13,7 +13,7 @@
 
 > Conservez votre logiciel de facturation. Connectez-vous à la facturation électronique française. Gardez la maîtrise de vos données.
 
-42bash Invoice Bridge est un service auto-hébergé qui relie [Invoice Ninja](https://invoiceninja.com) à une plateforme agréée française. [SuperPDP](https://www.superpdp.tech) est la première plateforme prise en charge. Invoice Ninja reste le logiciel de facturation. Le connecteur prépare la facture électronique, la contrôle, la dépose ou la reçoit, puis recopie le statut réglementaire.
+42bash Invoice Bridge est un service auto-hébergé de facturation électronique pour [Invoice Ninja](https://invoiceninja.com) en France. Il prépare une Factur-X, appelle l'API de facturation électronique de [SuperPDP](https://www.superpdp.tech), puis recopie le statut réglementaire. Invoice Ninja reste le logiciel de facturation. Son code n'est pas modifié. SuperPDP est la première plateforme agréée prise en charge.
 
 **42bash n'est pas une plateforme agréée.** SuperPDP assure les échanges réglementaires. Un PDF envoyé par e-mail n'est pas une facture électronique. Ce connecteur n'est pas une garantie universelle de conformité fiscale. Il ne revendique aucune certification, affiliation ou reconnaissance officielle.
 
@@ -32,6 +32,8 @@ Version **0.1.0-beta.2**. La préversion précédente, `v0.1.0-beta.1`, reste di
 | Frais SuperPDP | Facturés par SuperPDP au titre de son propre contrat, indépendants de ce connecteur gratuit |
 
 ## Le cadre français
+
+Ce connecteur s'adresse aux opérateurs qui préparent la facturation électronique 2026-2027. Il ne fixe pas le calendrier légal.
 
 La facture PDF jointe à un e-mail cède la place à une facture électronique structurée entre entreprises. Elle doit passer par une plateforme agréée, sous une forme que cette plateforme peut traiter (Factur-X / EN 16931), et le statut de son cycle de vie doit revenir dans l'outil qui l'a émise.
 
@@ -83,8 +85,9 @@ Les images ci-dessous sont des illustrations avec des sociétés fictives. Ce ne
 ## Installation rapide
 
 ```bash
-git clone git@github.com:42bash/invoice-bridge.git
+git clone https://github.com/42bash/invoice-bridge.git
 cd invoice-bridge
+git checkout v0.1.0-beta.2
 cp .env.example .env
 chmod 600 .env
 # URL et jeton Invoice Ninja, identifiants SuperPDP, messagerie, et votre société.
@@ -132,7 +135,7 @@ Les secrets restent dans `.env`, en droits 600, jamais dans Git. Le tableau de b
 
 ## Contribution
 
-Les tickets et les propositions de correction sont les bienvenus pour un défaut, un correctif de sécurité, un échec d'installation ou une documentation inexacte. N'envoyez ni identifiants, ni factures, ni données fiscales. Décrivez le comportement, la version, et ce que vous attendiez. C'est une bêta : une fonction nouvelle suppose un besoin concret de quelqu'un qui l'exploite.
+Les tickets et les propositions de correction sont les bienvenus pour un défaut, un correctif de sécurité, un échec d'installation ou une documentation inexacte. N'envoyez ni identifiants, ni factures, ni données fiscales. Ouvrez un ticket avec le comportement, la version, et ce que vous attendiez. C'est une bêta : une fonction nouvelle suppose un besoin concret de quelqu'un qui l'exploite.
 
 ## Licence
 
@@ -140,8 +143,8 @@ Les tickets et les propositions de correction sont les bienvenus pour un défaut
 
 ## Construit par 42bash
 
-[![42bash](docs/img/built-by.png)](https://42bash.com)
+[![42bash](docs/img/built-by.png)](https://www.42bash.com)
 
 42bash cadre, développe et livre des systèmes numériques pour les entreprises : applications métier, automatisation, intégrations d'API et architectures qui restent maintenables en production. Cette pratique existe depuis 2007.
 
-[42bash.com](https://42bash.com)
+[42bash.com](https://www.42bash.com)

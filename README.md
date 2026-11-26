@@ -13,7 +13,7 @@
 
 > Keep your invoicing software. Connect to French e-invoicing. Stay in control.
 
-42bash Invoice Bridge is a self-hosted service that connects [Invoice Ninja](https://invoiceninja.com) to a French approved e-invoicing platform. [SuperPDP](https://www.superpdp.tech) is the first platform supported. Invoice Ninja remains the invoicing application. The bridge prepares the electronic invoice, checks it, files or receives it, and writes the regulatory status back.
+42bash Invoice Bridge is a self-hosted electronic invoicing service for [Invoice Ninja](https://invoiceninja.com) in France. It prepares a Factur-X, calls the [SuperPDP](https://www.superpdp.tech) API, and writes the regulatory status back. Invoice Ninja stays the invoicing application. Its source code is not modified. SuperPDP is the first approved platform supported.
 
 **42bash is not an approved platform** (*plateforme agréée*). SuperPDP performs the regulatory exchange. A PDF sent by e-mail is not an electronic invoice. This connector is not a universal guarantee of tax compliance. It claims no certification, affiliation, or official recognition.
 
@@ -32,6 +32,8 @@ Version **0.1.0-beta.2**. The previous prerelease, `v0.1.0-beta.1`, stays availa
 | SuperPDP fees | Charged by SuperPDP under its own contract, independent of this free connector |
 
 ## The French requirement
+
+The bridge is for operators preparing French electronic invoicing over 2026–2027. It does not set the legal calendar.
 
 France is replacing the PDF attached to an e-mail with structured electronic invoicing between businesses. The invoice has to travel through an approved platform, in a form that platform can process (Factur-X / EN 16931), and the lifecycle status has to come back to the tool that issued it.
 
@@ -83,8 +85,9 @@ The pictures below are illustrations with fictitious companies. They are not cap
 ## Quick install
 
 ```bash
-git clone git@github.com:42bash/invoice-bridge.git
+git clone https://github.com/42bash/invoice-bridge.git
 cd invoice-bridge
+git checkout v0.1.0-beta.2
 cp .env.example .env
 chmod 600 .env
 # Invoice Ninja URL and token, SuperPDP credentials, mail, and your own company.
@@ -132,7 +135,7 @@ Secrets stay in `.env`, mode 600, and never in Git. The dashboard does not start
 
 ## Contributing
 
-Issues and pull requests are welcome for a defect, a security fix, an installation failure, or a correction of the documentation. Please do not send credentials, invoices, or tax data. Open a discussion or an issue with the behaviour, the version, and what you expected. This is a beta: a new feature needs a concrete need from someone running it.
+Issues and pull requests are welcome for a defect, a security fix, an installation failure, or a correction of the documentation. Please do not send credentials, invoices, or tax data. Open an issue with the behaviour, the version, and what you expected. This is a beta: a new feature needs a concrete need from someone running it.
 
 ## Licence
 
@@ -140,8 +143,8 @@ Issues and pull requests are welcome for a defect, a security fix, an installati
 
 ## Built by 42bash
 
-[![42bash](docs/img/built-by.png)](https://42bash.com)
+[![42bash](docs/img/built-by.png)](https://www.42bash.com)
 
 42bash frames, builds, and delivers digital systems for companies: business applications, automation, API integrations, and architectures that stay maintainable in production. The practice has been doing that work since 2007.
 
-[42bash.com](https://42bash.com)
+[42bash.com](https://www.42bash.com)

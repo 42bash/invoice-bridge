@@ -1,6 +1,6 @@
 # Upgrade
 
-Deploy a tag. Do not track `main` automatically.
+Deploy a tag. Do not track `main` automatically. The published tag is `v0.1.0-beta.2`.
 
 1. Note the current tag (`VERSION`).
 2. Back up the volume (SQLite database and `storage/app`).

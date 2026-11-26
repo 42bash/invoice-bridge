@@ -1,6 +1,6 @@
 # Mise à jour
 
-Déployez un tag, pas la branche `main` en continu.
+Déployez un tag, pas la branche `main` en continu. Le tag publié est `v0.1.0-beta.2`.
 
 1. Noter le tag actuel (`VERSION`).
 2. Sauvegarder le volume (base SQLite et `storage/app`).

@@ -7,13 +7,14 @@ Ce dépôt ne se déploie pas tout seul.
 ## Préparation du serveur
 
 ```sh
-# La clé privée reste sur le serveur, mode 600. La clé publique est une deploy key GitHub en lecture seule.
-git clone git@github-invoice-bridge:42bash/invoice-bridge.git
+git clone https://github.com/42bash/invoice-bridge.git
 cd invoice-bridge
-git checkout <commit>        # un commit dont l'intégration continue est verte. Ne pas suivre main.
+git checkout v0.1.0-beta.2
 cp .env.example .env
 chmod 600 .env
 ```
+
+Une clé de déploiement en lecture seule suffit pour cloner ce dépôt public. La clé privée reste sur le serveur, en mode 600. Elle ne sert pas à pousser.
 
 Renseigner `.env` avec le [guide de configuration](configuration.md). Puis :
 
