@@ -9,6 +9,11 @@ on:
         description: Image tag, without a leading v and never latest
         required: true
         default: 0.1.0-beta.1
+      only_visibility:
+        description: Only change the existing package visibility
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -19,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.release.tag_name || format('v{0}', inputs.tag) }}
       - name: Image tag
         id: tag
         run: |
@@ -33,6 +40,7 @@ jobs:
           esac
           echo "name=$name" >> "$GITHUB_OUTPUT"
       - name: Build and push
+        if: github.event_name != 'workflow_dispatch' || inputs.only_visibility != true
         run: |
           set -eu
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -46,6 +54,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -eu
+          gh api "/orgs/42bash/packages?package_type=container" --jq '.[] | {name,visibility,repository:.repository.full_name}'
           for i in 1 2 3 4 5 6; do
             if gh api --method PATCH "/orgs/42bash/packages/container/invoice-bridge" -f visibility=public; then
               exit 0
