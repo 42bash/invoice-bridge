@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Install `libzstd1` from Debian security without an exact revision, so a later security update is included in the next image build. The published `v0.1.0-beta.2` image stays on `1.5.7+dfsg-1+deb13u1`. The image scan still fails when a high or critical vulnerability has a fix.
+
 ## 0.1.0-beta.2 — 2026-11-26
 
 Security update of the container. No new product behaviour. Real emission stays locked by default. Not a claim of regulatory compliance.

@@ -17,11 +17,13 @@ LABEL org.opencontainers.image.title="42bash Invoice Bridge" \
 RUN usermod -u ${APP_UID} www-data && groupmod -g ${APP_GID} www-data
 
 # CVE-2026-124851. The pinned php:8.4-apache digest still ships libzstd1
-# 1.5.7+dfsg-1. Debian security publishes 1.5.7+dfsg-1+deb13u1, the same
-# upstream version with the corrected Debian revision.
+# 1.5.7+dfsg-1. Debian security currently publishes 1.5.7+dfsg-1+deb13u1.
+# The package name is not pinned to that revision: the next image build
+# takes the security candidate, including a later fix. The image scan still
+# fails when a high or critical vulnerability has a published fix.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libicu-dev libzip-dev libsqlite3-dev sqlite3 unzip curl \
-        libzstd1=1.5.7+dfsg-1+deb13u1 \
+        libzstd1 \
     && docker-php-ext-install -j"$(nproc)" intl zip bcmath pdo_sqlite opcache \
     && rm -rf /var/lib/apt/lists/*
 
