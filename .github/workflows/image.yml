@@ -53,12 +53,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          set +e
-          echo "=== packages ==="
-          gh api /orgs/42bash/packages
-          echo "=== graphql ==="
-          gh api graphql -f query='query { organization(login: "42bash") { packages(first: 20) { nodes { id name packageType } } } }'
-          echo "=== patch ==="
-          gh api --method PATCH /orgs/42bash/packages/container/invoice-bridge -f visibility=public
-          code=$?
-          exit "$code"
+          set -eu
+          echo "=== actor packages ==="
+          gh api "users/${{ github.actor }}/packages?package_type=container"
+          echo "=== org packages ==="
+          gh api "/orgs/42bash/packages?package_type=container" || true
+          gh api --method PATCH "/users/${{ github.actor }}/packages/container/invoice-bridge" -f visibility=public \
+            || gh api --method PATCH /orgs/42bash/packages/container/invoice-bridge -f visibility=public
