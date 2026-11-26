@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    image: invoice-bridge:0.1.0-beta.1
+    image: invoice-bridge:0.1.0-beta.2
     ports:
       - "127.0.0.1:${INVOICE_BRIDGE_PORT:-8098}:80"
     volumes:
@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   invoice-bridge-scheduler:
-    image: invoice-bridge:0.1.0-beta.1
+    image: invoice-bridge:0.1.0-beta.2
     command: ["su", "-s", "/bin/sh", "www-data", "-c", "php artisan schedule:work"]
     volumes:
       - bridge-data:/var/www/html/storage

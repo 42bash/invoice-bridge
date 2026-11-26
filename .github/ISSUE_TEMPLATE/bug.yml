@@ -13,4 +13,4 @@ body:
   - type: input
     attributes:
       label: Invoice Bridge version
-      placeholder: 0.1.0-beta.1
+      placeholder: 0.1.0-beta.2

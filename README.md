@@ -19,7 +19,7 @@
 
 ## Public beta
 
-Version **0.1.0-beta.1**.
+Version **0.1.0-beta.2**. The previous prerelease, `v0.1.0-beta.1`, stays available.
 
 | | |
 | --- | --- |
@@ -103,7 +103,7 @@ EINVOICING_SEND_ENABLED=false
 
 Recreate the containers after any change to `.env`. The full procedure is in [docs/en/installation.md](docs/en/installation.md).
 
-The same version is also published as `ghcr.io/42bash/invoice-bridge:0.1.0-beta.1`. There is no `latest` tag. The Compose file in this repository builds that version from source.
+The same version is also published as `ghcr.io/42bash/invoice-bridge:0.1.0-beta.2`. `ghcr.io/42bash/invoice-bridge:0.1.0-beta.1` stays available. There is no `latest` tag. The Compose file in this repository builds the current version from source.
 
 ## Documentation
 

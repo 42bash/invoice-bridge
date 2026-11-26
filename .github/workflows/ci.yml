@@ -53,14 +53,14 @@ jobs:
         run: |
           docker build -f docker/Dockerfile \
             --build-arg IMAGE_REVISION="${{ github.sha }}" \
-            --build-arg IMAGE_VERSION=0.1.0-beta.1 \
-            -t invoice-bridge:ci -t invoice-bridge:0.1.0-beta.1 .
+            --build-arg IMAGE_VERSION=0.1.0-beta.2 \
+            -t invoice-bridge:ci -t invoice-bridge:0.1.0-beta.2 .
       - name: Image vulnerabilities
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: invoice-bridge:ci
           format: table
-          severity: CRITICAL
+          severity: HIGH,CRITICAL
           exit-code: "1"
           ignore-unfixed: true
       - name: Virgin install

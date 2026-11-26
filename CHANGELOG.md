@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-beta.2 — 2026-11-26
+
+Security update of the container. No new product behaviour. Real emission stays locked by default. Not a claim of regulatory compliance.
+
+- Upgrade `libzstd1` from `1.5.7+dfsg-1` to `1.5.7+dfsg-1+deb13u1` (CVE-2026-124851). The pinned `php:8.4-apache` image of 24 November 2026 still contains the vulnerable package. Debian security supplies the corrected revision of the same upstream version. The `v0.1.0-beta.1` tag and its image are left as published.
+- The image scan fails when a high or critical vulnerability has a published fix. Findings that have no fix are reported and are not silenced.
+- A weekly GitHub Actions workflow audits Composer dependencies and the Docker image.
+
 ## 0.1.0-beta.1 — 2026-11-25
 
 First installable beta. Real emission stays locked by default. Not a claim of regulatory compliance.

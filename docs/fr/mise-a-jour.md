@@ -10,3 +10,5 @@ Déployez un tag, pas la branche `main` en continu.
 6. Les migrations partent au démarrage si `EINVOICING_RUN_MIGRATIONS=true`.
 7. `einvoicing:check`. Vérifier qu'une facture déjà reçue n'est pas réimportée.
 8. Retour arrière : `git checkout` du tag précédent, reconstruire, redémarrer. Ne pas restaurer une base plus récente sur un code plus ancien si une migration a été appliquée : restaurer aussi la sauvegarde de la base.
+
+`v0.1.0-beta.2` remplace `libzstd1` 1.5.7+dfsg-1 par 1.5.7+dfsg-1+deb13u1 (CVE-2026-124851). `v0.1.0-beta.1` et son image restent publiés sous leur propre tag.

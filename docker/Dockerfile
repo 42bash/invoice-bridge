@@ -3,7 +3,7 @@ FROM php:8.4-apache@sha256:95c1a1dfaaffef4bcfee563838c50620457a3c00196c4bf5ddb66
 # Same UID/GID as the host user so the mounted storage stays writable from the host.
 ARG APP_UID=1000
 ARG APP_GID=1000
-ARG IMAGE_VERSION=0.1.0-beta.1
+ARG IMAGE_VERSION=0.1.0-beta.2
 ARG IMAGE_REVISION=unknown
 
 LABEL org.opencontainers.image.title="42bash Invoice Bridge" \
@@ -16,8 +16,12 @@ LABEL org.opencontainers.image.title="42bash Invoice Bridge" \
       org.opencontainers.image.revision="${IMAGE_REVISION}"
 RUN usermod -u ${APP_UID} www-data && groupmod -g ${APP_GID} www-data
 
+# CVE-2026-124851. The pinned php:8.4-apache digest still ships libzstd1
+# 1.5.7+dfsg-1. Debian security publishes 1.5.7+dfsg-1+deb13u1, the same
+# upstream version with the corrected Debian revision.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libicu-dev libzip-dev libsqlite3-dev sqlite3 unzip curl \
+        libzstd1=1.5.7+dfsg-1+deb13u1 \
     && docker-php-ext-install -j"$(nproc)" intl zip bcmath pdo_sqlite opcache \
     && rm -rf /var/lib/apt/lists/*
 

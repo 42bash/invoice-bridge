@@ -1,4 +1,4 @@
-# Known limitations (0.1.0-beta.1)
+# Known limitations (0.1.0-beta.2)
 
 Public list. No operator-specific data.
 
