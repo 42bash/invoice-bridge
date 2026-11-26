@@ -54,9 +54,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -eu
-          echo "=== actor packages ==="
-          gh api "users/${{ github.actor }}/packages?package_type=container"
           echo "=== org packages ==="
-          gh api "/orgs/42bash/packages?package_type=container" || true
-          gh api --method PATCH "/users/${{ github.actor }}/packages/container/invoice-bridge" -f visibility=public \
-            || gh api --method PATCH /orgs/42bash/packages/container/invoice-bridge -f visibility=public
+          gh api -X GET /orgs/42bash/packages -f package_type=docker
+          echo "=== patch ==="
+          gh api --method PATCH /orgs/42bash/packages/container/invoice-bridge -f visibility=public
